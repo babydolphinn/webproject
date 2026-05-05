@@ -27,23 +27,20 @@
         
         <!-- The Row where cards will live -->
         <div class="row">
-    <% if (projects.length > 0) { %>
-        <% projects.forEach(project => { %>
-            <!-- This is where Student 2's "Read" logic happens -->
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= project.title %></h5>
-                        <p class="text-muted"><%= project.category %></p>
-                        <a href="/project/<%= project._id %>" class="btn btn-primary">View Details</a>
-                    </div>
+    <% projects.forEach(project => { %>
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title"><%= project.title %></h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><%= project.category %></h6>
+                    <p class="card-text"><%= project.shortDescription %></p>
+                    <!-- This link will eventually be dynamic -->
+                    <a href="/details" class="btn btn-primary w-100">View Details</a>
                 </div>
             </div>
-        <% }) %>
-    <% } else { %>
-        <p>No projects found. Be the first to add one!</p>
-    <% } %>
-         </div>
+        </div>
+    <% }) %>
+</div>
     </div>
 
     <!-- Bootstrap Script (Place this before the closing body tag) -->

@@ -1,21 +1,39 @@
 const express = require('express');
 const app = express();
 
-// Set the engine so Express knows we are using EJS
 app.set('view engine', 'ejs');
 
-// ROUTE 1: The Home Page[cite: 2]
+// MOCK DATA: This mimics what will eventually come from MongoDB
+const fakeProjects = [
+    {
+        _id: "1",
+        title: "AI Chatbot for CCIS",
+        category: "Artificial Intelligence",
+        shortDescription: "A smart bot to help students find classrooms.",
+        fullDescription: "This project uses Python and NLP to create a localized chatbot...",
+        experience: "Focus on data cleaning early on!"
+    },
+    {
+        _id: "2",
+        title: "E-Commerce for Local Dates",
+        category: "Web Development",
+        shortDescription: "A platform for Saudi farmers to sell dates.",
+        fullDescription: "Built with Node.js and Express to support local agriculture...",
+        experience: "Bootstrap makes the UI much faster to build."
+    }
+];
+
+// ROUTE 1: Home Page - Sending the fakeProjects to the template
 app.get('/', (req, res) => {
-    res.render('home'); // This looks for views/home.ejs
+    res.render('home', { projects: fakeProjects });
 });
 
-// ROUTE 2: The Details Page[cite: 2]
+// ROUTE 2: Details Page - Sending just one project to the template
 app.get('/details', (req, res) => {
-    res.render('details'); // This looks for views/details.ejs
+    // For now, we just show the first project to test the layout
+    res.render('details', { project: fakeProjects[0] });
 });
 
-// Start the server
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Smoothie is ready! Go to http://localhost:${PORT}`);
+app.listen(3000, () => {
+    console.log('Server running at http://localhost:3000');
 });
