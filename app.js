@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
+const Project = require('./public/js/Project'); // Import your class
 
 app.set('view engine', 'ejs');
 
-// MOCK DATA: This mimics what will eventually come from MongoDB
-const fakeProjects = [
+const rawData = [
     {
         _id: "1",
         title: "AI Chatbot for CCIS",
@@ -23,15 +23,22 @@ const fakeProjects = [
     }
 ];
 
-// ROUTE 1: Home Page - Sending the fakeProjects to the template
+// Convert raw data into "Project" objects using your Class
+const projects = rawData.map(item => new Project(item));
+
 app.get('/', (req, res) => {
-    res.render('home', { projects: fakeProjects });
+    res.render('home', { projects: projects });
 });
 
-// ROUTE 2: Details Page - Sending just one project to the template
-app.get('/details', (req, res) => {
-    // For now, we just show the first project to test the layout
-    res.render('details', { project: fakeProjects[0] });
+app.get('/project/:id', (req, res) => {
+    const projectId = req.params.id; // This gets the "1" or "2" from the URL
+    const selectedProject = projects.find(p => p._id === projectId);
+    
+    if (selectedProject) {
+        res.render('details', { project: selectedProject });
+    } else {
+        res.status(404).send('Project not found');
+    }
 });
 
 app.listen(3000, () => {
