@@ -1,44 +1,64 @@
 const express = require('express');
 const app = express();
-const Project = require('./public/js/Project'); // Import your class
+const mongoose = require('mongoose');
+const Project = require('./public/js/Project');
+const ProjectModel = require('./models/Project');
 
 app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-const rawData = [
-    {
-        _id: "1",
-        title: "AI Chatbot for CCIS",
-        category: "Artificial Intelligence",
-        shortDescription: "A smart bot to help students find classrooms.",
-        fullDescription: "This project uses Python and NLP to create a localized chatbot...",
-        experience: "Focus on data cleaning early on!"
-    },
-    {
-        _id: "2",
-        title: "E-Commerce for Local Dates",
-        category: "Web Development",
-        shortDescription: "A platform for Saudi farmers to sell dates.",
-        fullDescription: "Built with Node.js and Express to support local agriculture...",
-        experience: "Bootstrap makes the UI much faster to build."
-    }
-];
+mongoose.connect('mongodb+srv://laraaleidan04_db_user:Qvc2JhmEIuHMGlM0@cluster0.pk60mbd.mongodb.net/webproject')
+    .then(() => console.log('MongoDB connected'))
+    .catch(err => console.log(err));
 
-// Convert raw data into "Project" objects using your Class
-const projects = rawData.map(item => new Project(item));
-
-app.get('/', (req, res) => {
-    res.render('home', { projects: projects });
+app.get('/', async (req, res) => {
+    const projectsData = await ProjectModel.find();
+    const projects = projectsData.map(item => new Project(item));
+    res.render('home', { projects });
 });
 
-app.get('/project/:id', (req, res) => {
-    const projectId = req.params.id; // This gets the "1" or "2" from the URL
-    const selectedProject = projects.find(p => p._id === projectId);
-    
-    if (selectedProject) {
-        res.render('details', { project: selectedProject });
+app.get('/project/:id', async (req, res) => {
+    const projectData = await ProjectModel.findById(req.params.id);
+    if (projectData) {
+        const project = new Project(projectData);
+        res.render('details', { project });
     } else {
         res.status(404).send('Project not found');
     }
+});
+
+// Show Add Project page
+app.get('/add', (req, res) => {
+    res.render('add-project');
+});
+
+// Save new project to MongoDB
+app.post('/add', async (req, res) => {
+    const { title, category, shortDescription, fullDescription, experience } = req.body;
+    const newProject = new ProjectModel({ title, category, shortDescription, fullDescription, experience });
+    await newProject.save();
+    res.redirect('/');
+});
+
+// Show Edit page
+app.get('/project/:id/edit', async (req, res) => {
+    const projectData = await ProjectModel.findById(req.params.id);
+    const project = new Project(projectData);
+    res.render('edit-project', { project });
+});
+
+// Update project in MongoDB
+app.post('/project/:id/edit', async (req, res) => {
+    const { title, category, shortDescription, fullDescription, experience } = req.body;
+    await ProjectModel.findByIdAndUpdate(req.params.id, { title, category, shortDescription, fullDescription, experience });
+    res.redirect('/project/' + req.params.id);
+});
+
+// Delete project
+app.post('/project/:id/delete', async (req, res) => {
+    await ProjectModel.findByIdAndDelete(req.params.id);
+    res.redirect('/');
 });
 
 app.listen(3000, () => {
