@@ -19,7 +19,13 @@
   },
   "homepage": "https://github.com/babydolphinn/webproject#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "crypto": "^1.0.1",
     "ejs": "^5.0.2",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "mongoos": "^0.0.1-security",
+    "mongoose": "^9.6.1",
+    "nodemailer": "^8.0.7"
   }
 }
