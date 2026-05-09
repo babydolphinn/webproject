@@ -12,8 +12,8 @@ const ProjectModel = require('./models/project'); // MongoDB Schema
 const User = require('./models/User'); 
 
 // --- Database Connection ---
-//mongoose.connect('mongodb://127.0.0.1:27017/webproject')
-mongoose.connect('mongodb+srv://laraaleidan04_db_user:Qvc2JhmEIuHMGlM0@cluster0.pk60mbd.mongodb.net/webproject')
+mongoose.connect('mongodb://127.0.0.1:27017/webproject')
+//mongoose.connect('mongodb+srv://laraaleidan04_db_user:Qvc2JhmEIuHMGlM0@cluster0.pk60mbd.mongodb.net/webproject')
     .then(() => console.log('✅ MongoDB connected'))
     .catch(err => console.log('❌ MongoDB Connection Error:', err));
     
