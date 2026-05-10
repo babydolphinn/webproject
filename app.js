@@ -121,6 +121,7 @@ app.get('/logout', (req, res) => {
 
 });
 
+// Forgot password routes
 app.get('/forgot-password', (req, res) => {
     res.render('forgot-password', {
         error: null,
