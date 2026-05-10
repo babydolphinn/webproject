@@ -12,12 +12,7 @@ const ProjectModel = require('./models/project'); // MongoDB Schema
 const User = require('./models/User'); 
 
 // --- Database Connection ---
-//mongoose.connect('mongodb://127.0.0.1:27017/webproject')
-//mongoose.connect('')
-//mongoose.connect('mongodb+srv://laraaleidan04_db_user:Qvc2JhmEIuHMGlM0@cluster0.pk60mbd.mongodb.net/webproject')
-   // .then(() => console.log('✅ MongoDB connected'))
-   // .catch(err => console.log('❌ MongoDB Connection Error:', err));
-   const dbURI = "mongodb://sooonasama_db_user:Nnt9DhZFZwtL6QyB@ac-x743tci-shard-00-00.j1fktck.mongodb.net:27017,ac-x743tci-shard-00-01.j1fktck.mongodb.net:27017,ac-x743tci-shard-00-02.j1fktck.mongodb.net:27017/webproject?ssl=true&replicaSet=atlas-gxj21u-shard-0&authSource=admin&appName=Cluster0";
+const dbURI = "mongodb://sooonasama_db_user:Nnt9DhZFZwtL6QyB@ac-x743tci-shard-00-00.j1fktck.mongodb.net:27017,ac-x743tci-shard-00-01.j1fktck.mongodb.net:27017,ac-x743tci-shard-00-02.j1fktck.mongodb.net:27017/webproject?ssl=true&replicaSet=atlas-gxj21u-shard-0&authSource=admin&appName=Cluster0";
 
 mongoose.connect(dbURI)
   .then(() => {
@@ -27,8 +22,6 @@ mongoose.connect(dbURI)
     console.log('❌ ATLAS STATUS: Connection Failed');
     console.error("Error Detail:", err.message);
   });
-    
-
 
 // --- Middleware ---
 app.set('view engine', 'ejs');
@@ -88,12 +81,84 @@ app.get('/logout', (req, res) => {
     req.session.destroy(() => res.redirect('/login'));
 });
 
+// --- FORGOT PASSWORD ROUTES (Merged from Student 2) ---
+app.get('/forgot-password', (req, res) => {
+    res.render('forgot-password', { error: null, success: null });
+});
+
+app.post('/forgot-password', async (req, res) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.render('forgot-password', { error: 'No account found with this email.', success: null });
+        }
+
+        const token = crypto.randomBytes(32).toString('hex');
+        user.resetPasswordToken = token;
+        user.resetPasswordExpires = Date.now() + 15 * 60 * 1000;
+        await user.save();
+
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'alanoudalyahya2004@gmail.com',
+                pass: 'ruqd qbem ffcs gzqh'
+            }
+        });
+
+        const resetLink = `http://localhost:3000/reset-password/${token}`;
+        await transporter.sendMail({
+            from: 'alanoudalyahya2004@gmail.com',
+            to: user.email,
+            subject: 'Password Reset Request',
+            html: `<h2>Password Reset</h2><p>Click the link below:</p><a href="${resetLink}">${resetLink}</a>`
+        });
+
+        res.render('forgot-password', { error: null, success: 'Reset link sent to your email.' });
+    } catch (error) {
+        res.render('forgot-password', { error: 'Something went wrong.', success: null });
+    }
+});
+
+app.get('/reset-password/:token', async (req, res) => {
+    const user = await User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } });
+    if (!user) return res.send('Invalid or expired reset link.');
+    res.render('reset-password', { token: req.params.token, error: null });
+});
+
+app.post('/reset-password/:token', async (req, res) => {
+    try {
+        const user = await User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } });
+        if (!user) return res.send('Invalid or expired reset link.');
+
+        user.password = await bcrypt.hash(req.body.newPassword, 10);
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpires = undefined;
+        await user.save();
+        res.render('login', { error: null, success: 'Password updated successfully!' });
+    } catch (error) {
+        res.render('reset-password', { token: req.params.token, error: 'Error updating password.' });
+    }
+});
+
 // --- Project Display Routes (Student 2) ---
 app.get('/', isAuthenticated, async (req, res) => {
     try {
+        // Restore Search logic while keeping database fetch
+        const searchQuery = req.query.search ? req.query.search.toLowerCase() : '';
         const projectsData = await ProjectModel.find();
-        // Convert plain database objects into your ES6 Class instances
-        const projects = projectsData.map(item => new Project(item)); 
+        
+        let projects = projectsData.map(item => new Project(item)); 
+
+        if (searchQuery) {
+            projects = projects.filter(p => 
+                p.title.toLowerCase().includes(searchQuery) || 
+                p.category.toLowerCase().includes(searchQuery)
+            );
+        }
+
         res.render('home', { projects });
     } catch (err) {
         res.status(500).send("Error fetching projects");
