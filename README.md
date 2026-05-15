@@ -109,11 +109,6 @@ A secure email-based password reset system uses time-limited tokens to allow use
 -----------------------------------------
 
 ## System Screenshots
-## System Screenshots
-
-## System Screenshots
-
-## System Screenshots
 
 ### User Registration Page
 ![User Registration Page](ff5f0eee-dabf-4db7-9a92-083d2bdd3f2e.JPG)
