@@ -111,24 +111,25 @@ A secure email-based password reset system uses time-limited tokens to allow use
 ## System Screenshots
 ## System Screenshots
 
-### Screenshot 1
-![Screenshot 1](82f2c5e4-ebf8-4428-b5dc-a87f6df469fe.JPG)
+## System Screenshots
 
-### Screenshot 2
-![Screenshot 2](87db2c40-3c98-45f3-8b1f-b698f2113913.JPG)
+### User Registration Page
+![User Registration Page](ff5f0eee-dabf-4db7-9a92-083d2bdd3f2e.JPG)
 
-### Screenshot 3
-![Screenshot 3](29048ba0-73d3-4c74-aa8f-324d343cd276.JPG)
+### User Login Page
+![User Login Page](b84b7c88-8f04-4dbc-8391-221afd30b4d2.JPG)
 
-### Screenshot 4
-![Screenshot 4](b84b7c88-8f04-4dbc-8391-221afd30b4d2.JPG)
+### Home Page with Search and Category Filtering
+![Home Page](c1bef585-200b-4a7a-b3b6-af5870b2ea0a.JPG)
 
-### Screenshot 5
-![Screenshot 5](c1bef585-200b-4a7a-b3b6-af5870b2ea0a.JPG)
+### Project Repository Dashboard
+![Project Repository Dashboard](29048ba0-73d3-4c74-aa8f-324d343cd276.JPG)
 
-### Screenshot 6
-![Screenshot 6](ff5f0eee-dabf-4db7-9a92-083d2bdd3f2e.JPG)
+### Project Details Page
+![Project Details Page](87db2c40-3c98-45f3-8b1f-b698f2113913.JPG)
 
+### Add New Project Page
+![Add New Project Page](82f2c5e4-ebf8-4428-b5dc-a87f6df469fe.JPG)
 -----------------------------------------
 
 ## Future Work
