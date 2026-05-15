@@ -113,6 +113,8 @@ A secure email-based password reset system uses time-limited tokens to allow use
 
 ## System Screenshots
 
+## System Screenshots
+
 ### User Registration Page
 ![User Registration Page](ff5f0eee-dabf-4db7-9a92-083d2bdd3f2e.JPG)
 
@@ -125,11 +127,12 @@ A secure email-based password reset system uses time-limited tokens to allow use
 ### Project Repository Dashboard
 ![Project Repository Dashboard](29048ba0-73d3-4c74-aa8f-324d343cd276.JPG)
 
-### Project Details Page
-![Project Details Page](87db2c40-3c98-45f3-8b1f-b698f2113913.JPG)
-
 ### Add New Project Page
 ![Add New Project Page](82f2c5e4-ebf8-4428-b5dc-a87f6df469fe.JPG)
+
+### Project Details and Student Experience Page
+![Project Details and Student Experience Page](87db2c40-3c98-45f3-8b1f-b698f2113913.JPG)
+
 -----------------------------------------
 
 ## Future Work
