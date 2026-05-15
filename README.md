@@ -162,3 +162,4 @@ Adding support for direct PDF uploads of final project reports and presentations
 - Alanoud — Authentication and Security
 - Ghadeer — Project Display and Detailed View
 - Lara — Core CRUD Operations
+- Shaden — Search System Implementation, Dynamic Filtering, UI/UX Design, and README Documentation
