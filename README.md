@@ -154,7 +154,7 @@ Adding support for direct PDF uploads of final project reports and presentations
 
 ## Team Members and Responsibilities
 
-- Alanoud — Authentication and Security, and flow chart 
-- Ghadeer — Project Display and Detailed View
+- Alanoud — Authentication and Security, and Flow Chart 
+- Ghadeer — Project Display and Detailed View, and WIKI
 - Lara — Core CRUD Operations
 - Shaden — Search System Implementation, Dynamic Filtering, UI/UX Design, and README Documentation
